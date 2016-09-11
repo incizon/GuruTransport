@@ -60,4 +60,35 @@ class Supplier{
             echo json_encode($returnVal);
         }
     }
+
+    public static function modifySupplier($data,$userId)
+    {
+        $db = Database::getInstance();
+        $conn = $db->getConnection();
+        try{
+            $stmt=$conn->prepare("UPDATE `supplier` SET
+                                        suppliername=:suppliername,
+                                        address=:address,
+                                        email=:email,
+                                        contactnumber=:contactnumber,
+                                        lastmodifiedby=:lastmodifyby,
+                                        lastmodificationdate=now() WHERE supplierid=:supplierId");
+            $stmt->bindParam(':supplierId', $data->supplierid, PDO::PARAM_STR, 10);
+            $stmt->bindParam(':suppliername', $data->suppliername, PDO::PARAM_STR, 10);
+            $stmt->bindParam(':address', $data->address, PDO::PARAM_STR, 10);
+            $stmt->bindParam(':email', $data->email, PDO::PARAM_STR, 10);
+            $stmt->bindParam(':contactnumber', $data->contactnumber, PDO::PARAM_STR, 10);
+            $stmt->bindParam(':lastmodifyby', $userId, PDO::PARAM_STR, 10);
+
+            if($stmt->execute()){
+                echo AppUtil::getReturnStatus("success","Supplier Modified Succefully");
+
+            }else{
+                echo AppUtil::getReturnStatus("Fail","Please try again");
+            }
+        }catch(Exception $e){
+
+            echo AppUtil::getReturnStatus("Fail","Something went wrong. please try again");
+        }
+    }
 }

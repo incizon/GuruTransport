@@ -193,10 +193,10 @@ myApp.controller("AddSupplierController", function ($scope, $http) {
 myApp.controller("ViewSuppliersController", function ($scope,$http) {
 
     console.log("In  View Retailers Controller");
-    $scope.retailers = [
-    ];
+    $scope.retailers = [];
+    $scope.selectedSupplier={};
     var data = {
-        opertaion: "getSupplier"
+        operation: "getSupplier"
     }
     var config = {
         params: {
@@ -213,6 +213,51 @@ myApp.controller("ViewSuppliersController", function ($scope,$http) {
         $scope.errorMessage = data;
         $('#error').css("display", "block");
     });
+
+   /*Supplier Modification Starts*/
+
+    $scope.selectedSupplier=function(supplier){
+        $scope.selectedSupplier=supplier;
+        console.log($scope.selectedSupplier);
+    }
+
+    $scope.modifySupplier=function(){
+
+        console.log($scope.selectedSupplier);
+        var data = {
+            data: $scope.selectedSupplier,
+            operation: "modifySupplier"
+        }
+        var config = {
+            params: {
+                data: data
+            }
+        };
+
+        console.log(config);
+        $scope.errorMessage = "";
+        $scope.warningMessage = "";
+        $('#loader').css("display", "block");
+
+        $http.post("php/SupplierFacade.php", null, config)
+            .success(function (data) {
+                console.log(data);
+                $('#loader').css("display", "none");
+                if (data.status == "success") {
+                    $scope.warningMessage = data.message;
+                    $('#warning').css("display", "block");
+                } else {
+                    $scope.errorMessage = data.message;
+                    $('#error').css("display", "block");
+                }
+            })
+            .error(function (data, status, headers, config) {
+                console.log(data.error);
+                $('#loader').css("display", "none");
+                $scope.errorMessage = data.message;
+                $('#error').css("display", "block");
+            });
+    }
 });
 myApp.controller("AddClientController", function ($scope, $http) {
 
@@ -709,6 +754,10 @@ myApp.controller("viewClientInvoiceController", function ($scope,$http,$statePar
             $scope.errorMessage = data;
             $('#error').css("display", "block");
     });
+
+    $scope.viewStatementDetails=function(statementDetails){
+        $scope.invoiceStatementDetails=statementDetails;
+    }
 });
 //SUPPLIER CONTROLLERS
 
@@ -951,6 +1000,10 @@ myApp.controller("viewSupplierInvoiceController", function ($scope,$http,$stateP
         $scope.errorMessage = data;
         $('#error').css("display", "block");
     });
+
+    $scope.viewStatementDetails=function(statementDetails){
+        $scope.invoiceStatementDetails=statementDetails;
+    }
 });
 
 

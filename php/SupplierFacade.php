@@ -11,7 +11,7 @@ require_once 'Supplier.php';
 //echo AppUtil::getReturnStatus("success","added succeefully");
     $mData = json_decode($_GET["data"]);
     $user="user";
-    switch ($mData->opertaion) {
+    switch ($mData->operation) {
         case 'addSupplier':
             Supplier::addSupplier($mData->data,$user);
             break;
@@ -19,7 +19,7 @@ require_once 'Supplier.php';
             Supplier::getSupplier();
             break;
         case 'modifySupplier':
-
+            Supplier::modifySupplier($mData->data,$user);
             break;
         default:
             # code...
