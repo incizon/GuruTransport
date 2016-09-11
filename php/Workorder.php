@@ -470,6 +470,34 @@ class Workorder
                     $result['invoicenumber'] = $result2['invoicenumber'];
                     $result['totalamounttoBePaid'] = $result2['totalamount'];
                     $result['clientname'] = AppUtil::getNameFromId(null,$conn,null,null,null,$result2['clientid']);
+
+                    $stmt2=$conn->prepare("SELECT processmasterid from invoice_details WHERE invoiceid=:invoiceid");
+                    $stmt2->bindParam(':invoiceid',$result2['invoiceid']);
+
+                    if($stmt2->execute()){
+                        if($stmt2->rowCount()>0){
+                            while($result3=$stmt2->fetch(PDO::FETCH_ASSOC)){
+
+                                $processmasterid=$result3['processmasterid'];
+                                $stmt3=$conn->prepare("SELECT * FROM process_client WHERE processmasterid=:processmasterid");
+                                $stmt3->bindParam(':processmasterid',$processmasterid);
+
+                                if($stmt3->execute()){
+
+                                    while($result4=$stmt3->fetch(PDO::FETCH_ASSOC)){
+                                        $result['ProcessInvolved'][]= array(
+                                            'challan' => $result4['sellingchallan'],
+                                            'rate' => $result4['sellingrate'],
+                                            'quantity' => $result4['sellingqty'],
+                                            'amount' => $result4['sellingamount'],
+                                            'supervisor' => $result4['supervisor'],
+                                            'date' => $result4['sellingdate']
+                                        );
+                                    }
+                                }
+                            }
+                        }
+                    }
                     array_push($json_array, $result);
 
                 }
@@ -766,8 +794,35 @@ class Workorder
                     $result['invoicenumber'] = $result2['supplierinvoicenumber'];
                     $result['totalamounttoBePaid'] = $result2['totalamount'];
                     $result['clientname'] = AppUtil::getSupplierName($conn,$result2['supplierid']);
-                    array_push($json_array, $result);
 
+                    $stmt2=$conn->prepare("SELECT processmasterid from supplier_invoice_details WHERE supplierinvoiceid=:invoiceid");
+                    $stmt2->bindParam(':invoiceid',$result2['supplierinvoiceid']);
+
+                    if($stmt2->execute()){
+                        if($stmt2->rowCount()>0){
+                             while($result3=$stmt2->fetch(PDO::FETCH_ASSOC)){
+
+                                 $processmasterid=$result3['processmasterid'];
+                                 $stmt3=$conn->prepare("SELECT * FROM process_supplier WHERE processmasterid=:processmasterid");
+                                 $stmt3->bindParam(':processmasterid',$processmasterid);
+
+                                 if($stmt3->execute()){
+
+                                      while($result4=$stmt3->fetch(PDO::FETCH_ASSOC)){
+                                          $result['ProcessInvolved'][]= array(
+                                                    'purchasechallan' => $result4['purchasechallan'],
+                                                     'purchaserate' => $result4['purchaserate'],
+                                                     'purchaseqty' => $result4['purchaseqty'],
+                                                     'purchaseamount' => $result4['purchaseamount'],
+                                                     'supervisor' => $result4['supervisor'],
+                                                    'purchasedate' => $result4['purchasedate']
+                                          );
+                                      }
+                                 }
+                             }
+                        }
+                    }
+                    array_push($json_array, $result);
                 }
                 $json = json_encode($json_array);
                 echo $json;
