@@ -1,0 +1,49 @@
+ <div class="row">
+    <div class="col-md-12">
+        <form class="form-horizontal">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                        <h3 class="panel-title"><strong>Workorder</strong> Details of <strong>{{name}}</strong></h3>
+                </div>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+
+                            <thead>
+                            <th width="5%">Sr No</th>
+                            <th width="15%">Client Name</th>
+                            <th width="10%">Driver</th>
+                            <th width="10%">Supplier</th>
+                            <th width="10%">Vehicle</th>
+                            <th width="10%">Material</th>
+                            <th width="10%">Rate</th>
+                            <th width="10%">Quantity</th>
+                            <th width="10%">TotalAmount</th>
+                            <th width="10%">Date</th>
+                            <th width="20%">Action</th>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="workorder in Workorders">
+                                <td width="5%">{{$index+1}}</td>
+                                <td width="15%">{{workorder.clientname}}</td>
+                                <td width="10%">{{workorder.drivername}}</td>
+                                <td width="10%">{{workorder.suppliername}}</td>
+                                <td width="10%">{{workorder.vehiclenumber}}</td>
+                                <td width="10%">{{workorder.materialtype}}</td>
+                                <td width="10%">{{workorder.sellingrate}}</td>
+                                <td width="10%">{{workorder.sellingqty}}</td>
+                                <td width="10%">{{workorder.sellingamount}}</td>
+                                <td width="10%">{{workorder.insertdate}}</td>
+                                <td width="20%"><button class="btn btn-info">View</button></td>
+
+                            </tr>
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+                
+            </div>
+    	</form>                    
+	</div>
+</div>                    

@@ -1,0 +1,44 @@
+ <div class="row">
+    <div class="col-md-12">
+        <form class="form-horizontal">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                        <h3 class="panel-title"><strong>Clients</strong> Details</h3>
+                </div>
+                <div class="panel-body">
+                      <div class="table-responsive">
+                            <table class="table table-bordered">
+
+                                    <thead>
+                                           <th width="5%">Sr No</th>
+                                           <th width="10%">Client Name</th>
+                                           <th width="10%">Contact No</th>
+                                           <th width="10%">Email Id</th>
+                                           <th width="15%">Address</th>
+                                           <th width="50%">Action</th>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="client in clients">
+                                            <td width="5%">{{$index+1}}</td>
+                                            <td width="10%">{{client.clientName}}</td>
+                                            <td width="10%">{{client.clientContact}}</td>
+                                            <td width="10%">{{client.clientEmail}}</td>
+                                            <td width="15%">{{client.clientAddress}}</td>
+                                            <td width="50%"><button class="btn btn-info">Modify</button>
+                                                <a ui-sref="viewClientwiseWorkOrders({clientid:client.clientid})"> <button class="btn btn-info">Workorders</button></a>
+                                                <a ui-sref="createInvoice({clientid:client.clientid})"> <button class="btn btn-info">Create Bill</button></a>
+                                                <a ui-sref="viewInvoices({clientid:client.clientid})"> <button class="btn btn-info">Bills</button></a>
+                                                <a ui-sref="addPayment({clientid:client.clientid})"> <button class="btn btn-info">AddPayment</button></a>
+                                            </td>
+
+                                        </tr>
+                                    </tbody>
+                                
+                            </table>
+                      </div>          
+                </div>
+                
+            </div>
+        </form>                    
+    </div>
+</div>                    

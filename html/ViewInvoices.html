@@ -1,0 +1,40 @@
+ <div class="row">
+    <div class="col-md-12">
+        <form class="form-horizontal">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                        <h3 class="panel-title"><strong>Invoice</strong> List</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+
+                            <thead>
+                            <th width="5%">Sr No</th>
+                            <th width="15%">Client Name</th>
+                            <th width="10%">BillNumber</th>
+                            <th width="10%">TotalBillAmount</th>
+                            <th width="10%">Bill Date</th>
+                            <th width="20%">Action</th>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="invoice in Invoices">
+                                <td width="5%">{{$index+1}}</td>
+                                <td width="15%">{{invoice.clientname}}</td>
+                                <td width="10%">{{invoice.invoicenumber}}</td>
+                                <td width="10%">{{invoice.totalamounttoBePaid}}</td>
+                                <td width="10%">{{invoice.invoicedate}}</td>
+
+                                <td width="20%"><button class="btn btn-info">View</button></td>
+
+                            </tr>
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+                
+            </div>
+    	</form>                    
+	</div>
+</div>                    

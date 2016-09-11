@@ -1,0 +1,38 @@
+ <div class="row">
+    <div class="col-md-12">
+        <form class="form-horizontal">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                        <h3 class="panel-title"><strong>Driver</strong> Details</h3>
+                </div>
+                <div class="panel-body">
+                      <div class="table-responsive">
+                            <table class="table table-bordered">
+
+                                    <thead>
+                                           <th width="5%">Sr No</th>
+                                           <th width="15%">Driver Name</th> 
+                                           <th width="15%">Contact No</th>
+                                           <th width="15%">Email Id</th>
+                                           <th width="30%">Address</th> 
+                                           <th width="20%">Action</th>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="driver in drivers">
+                                            <td width="5%">{{$index+1}}</td>
+                                            <td width="15%">{{driver.driverName}}</td>
+                                            <td width="15%">{{driver.driverContact}}</td>
+                                            <td width="15%">{{driver.driverEmail}}</td>
+                                            <td width="30%">{{driver.driverAddress}}</td>
+                                            <td width="20%"><button class="btn btn-info">Modify</button></td>
+                                        </tr>
+                                    </tbody>
+                                
+                            </table>
+                      </div>          
+                </div>
+                
+            </div>
+    	</form>                    
+	</div>
+</div>                    

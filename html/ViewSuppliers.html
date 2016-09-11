@@ -1,0 +1,43 @@
+ <div class="row">
+    <div class="col-md-12">
+        <form class="form-horizontal">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                        <h3 class="panel-title"><strong>Suppliers</strong> Details</h3>
+                </div>
+                <div class="panel-body">
+                      <div class="table-responsive">
+                            <table class="table table-bordered">
+
+                                    <thead>
+                                           <th width="5%">Sr No</th>
+                                           <th width="15%">Supplier Name</th>
+                                           <th width="15%">Contact No</th>
+                                           <th width="10%">Email Id</th>
+                                           <th width="10%">Address</th>
+                                           <th width="45%">Action</th>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="retailer in retailers">
+                                            <td width="5%">{{$index+1}}</td>
+                                            <td width="15%">{{retailer.suppliername}}</td>
+                                            <td width="15%">{{retailer.contactnumber}}</td>
+                                            <td width="10%">{{retailer.email}}</td>
+                                            <td width="10%">{{retailer.address}}</td>
+                                            <td width="45%"><button class="btn btn-info">Modify</button>
+                                                <a ui-sref="viewSupplierwiseWorkOrders({supplierid:retailer.supplierid})"> <button class="btn btn-info">Workorders</button></a>
+                                                <a ui-sref="createSupplierInvoice({supplierid:retailer.supplierid})"> <button class="btn btn-info">Create Bills</button></a>
+                                                <a ui-sref="viewSupplierInvoice({supplierid:retailer.supplierid})"> <button class="btn btn-info">Bills</button></a>
+                                                <a ui-sref="addSupplierPayment({supplierid:retailer.supplierid})"> <button class="btn btn-info">AddPayment</button></a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                
+                            </table>
+                      </div>          
+                </div>
+                
+            </div>
+        </form>                    
+    </div>
+</div>                    

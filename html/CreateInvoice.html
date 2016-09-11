@@ -1,0 +1,101 @@
+<div>
+    <div ng-include="'loader.html'"></div>
+</div>
+<div>
+    <div ng-include="'ErrorMessage.html'"></div>
+</div>
+<div>
+    <div ng-include="'WarningMessage.html'"></div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <form class="form-horizontal">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><strong>Create Bill</strong></h3>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-5 col-xs-12">
+                            <div class="form-group">
+                                <label class="col-md-4 col-xs-12 control-label"> Name :</label>
+
+                                <div class="col-md-8 col-xs-12">
+                                    <label class="control-label"> {{clientname}} </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-4 col-xs-12 control-label">Date :</label>
+
+                                <div class="col-md-8 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                        <input type="date" ng-model="bill.billDate" class="form-control"/>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-md-6 col-xs-12">
+                            <div class="form-group">
+                                <label class="col-md-4 col-xs-12 control-label">Bill Number :</label>
+
+                                <div class="col-md-8 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                        <input type="text" ng-model="bill.billNumber" class="form-control"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+
+                    <div class="row">
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+
+                                <thead>
+                                <th width="5%">Sr No</th>
+                                <th width="10%">Vehicle</th>
+                                <th width="10%">Material</th>
+                                <th width="10%">SellingRate</th>
+                                <th width="10%">SellingQuantity</th>
+                                <th width="10%">TotalAmount</th>
+                                <th width="10%">Date</th>
+                                <th width="10%">AddToBill</th>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="workorder in Workorders">
+                                    <td width="5%">{{$index+1}}</td>
+                                    <td width="10%">{{workorder.vehiclenumber}}</td>
+                                    <td width="10%">{{workorder.materialtype}}</td>
+                                    <td width="10%">{{workorder.sellingrate}}</td>
+                                    <td width="10%">{{workorder.sellingqty}}</td>
+                                    <td width="10%">{{workorder.sellingamount}}</td>
+                                    <td width="10%">{{workorder.insertdate}}</td>
+                                    <td width="10%"><input type="checkbox" ng-model="workorder.workorder" ng-change="addWorkorderTobill(workorder.workorder,{{workorder.processmasterid}},{{workorder.sellingamount}})" /></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                <label class="col-md-7 col-xs-12 control-label">Total Bill Amount :</label>
+
+                                <div class="col-md-4 col-xs-12">
+                                    <label class="control-label"> {{bill.totalBillAmount}} </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="panel-footer">
+                    <button class="btn btn-default">Clear Form</button>
+                    <button class="btn btn-danger pull-right" data-ng-click="createBill()">Save</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

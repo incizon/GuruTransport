@@ -1,0 +1,177 @@
+<div>
+    <div ng-include="'loader.html'"></div>
+</div>
+<div>
+    <div ng-include="'ErrorMessage.html'"></div>
+</div>
+<div>
+    <div ng-include="'WarningMessage.html'"></div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <form class="form-horizontal">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><strong>Add Payment</strong> Details</h3>
+                </div>
+                <div class="panel-body">
+
+                    <div class="row">
+                        <div class="col-md-5 col-xs-12">
+                            <div class="form-group">
+                                <label class="col-md-4 col-xs-12 control-label">Name :</label>
+                                <div class="col-md-8 col-xs-12">
+                                    <label class="control-label"> {{Bills[0].clientname}} </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                    <label class="col-md-4 col-xs-12 control-label">Bills :</label>
+                                <div class="col-md-8">
+                                    <select class="form-control" name="bill" ng-model="payment.invoiceid" ng-change="getBillDetails(payment.invoiceid)"
+                                             required/>
+                                        <option value="" disabled selected>Choose Bill</option>
+                                        <option ng-repeat="bill in Bills" value="{{bill.invoiceid }}">{{bill.invoicenumber}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-4 col-xs-12 control-label">Total Amount :</label>
+                                <div class="col-md-8 col-xs-12">
+                                    <label class="control-label"> {{BillDetails[0].totalamounttoBePaid}} </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-4 col-xs-12 control-label">Total Paid Amount :</label>
+                                <div class="col-md-8 col-xs-12">
+                                    <label class="control-label"> {{BillDetails[0].totalpaidamount}} </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-4 col-xs-12 control-label">Remaining Amount :</label>
+                                <div class="col-md-8 col-xs-12">
+                                    <label class="control-label"> {{BillDetails[0].totalamounttoBePaid -BillDetails[0].totalpaidamount}} </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-xs-12">
+                            <div class="form-group">
+                                <label class="col-md-4 col-xs-12 control-label">Payment Mode :</label>
+                                <div class="col-md-8 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-search"></span></span>
+                                        <select class="form-control select" ng-model="payment.paymentMode"/>
+                                        <option value="" disabled selected>Select Payment Mode </option>
+                                        <option value="Cash">Cash</option>
+                                        <option value="Cheque">Cheque</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div ng-if="payment.paymentMode=='Cash'">
+                                <div class="form-group">
+                                    <label class="col-md-4 col-xs-12 control-label">Amount :</label>
+                                    <div class="col-md-8 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            <input type="text" ng-model="payment.amountPaid" class="form-control"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 col-xs-12 control-label">Remaining Amount :</label>
+                                    <div class="col-md-8 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            <input type="text" ng-model="payment.remainingAmount" class="form-control" disabled/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 col-xs-12 control-label">Payment Receiver :</label>
+                                    <div class="col-md-8 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            <input type="text" ng-model="payment.paymentReceiver" class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 col-xs-12 control-label">Date of Payment :</label>
+                                    <div class="col-md-8 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            <input type="date" ng-model="payment.paymentDate" class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div ng-if="payment.paymentMode=='Cheque'">
+                                <div class="form-group">
+                                    <label class="col-md-4 col-xs-12 control-label">Amount :</label>
+                                    <div class="col-md-8 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            <input type="text" ng-model="payment.amountPaid" class="form-control"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 col-xs-12 control-label">Remaining Amount :</label>
+                                    <div class="col-md-8 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            <input type="text" ng-model="payment.remainingAmount" class="form-control" disabled/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 col-xs-12 control-label">Cheque Number :</label>
+                                    <div class="col-md-8 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            <input type="text" ng-model="payment.chequeNumber" class="form-control"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 col-xs-12 control-label">Bank Name :</label>
+                                    <div class="col-md-8 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            <input type="text" ng-model="payment.bankName" class="form-control"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 col-xs-12 control-label">Payment Receiver :</label>
+                                    <div class="col-md-8 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            <input type="text" ng-model="payment.paymentReceiver" class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 col-xs-12 control-label">Date of Payment :</label>
+                                    <div class="col-md-8 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            <input type="date" ng-model="payment.paymentDate" class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div><br>
+
+
+                </div>
+                <div class="panel-footer">
+                    <button class="btn btn-default">Clear Form</button>
+                    <button class="btn btn-danger pull-right" data-ng-click="addPayment()">Save</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
