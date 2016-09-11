@@ -33,9 +33,8 @@ class AppUtil
             if ($stmt->rowCount() > 0) {
                 $name = "--";
                 $result = $stmt->fetch(PDO::FETCH_ASSOC);
-                if ($table == "client") {
-                    $name = $result["clientname"];
-                }
+                $name = $result["clientname"];
+
                 return $name;
             } else {
                 return "--";

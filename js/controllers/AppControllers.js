@@ -505,7 +505,12 @@ myApp.controller("addPaymentController", function ($scope,$http,$stateParams) {
     $scope.Bills={};
     $scope.BillDetails={};
     $scope.BillDetails.totalamounttoBePaid=0;
-    $scope.payment={};
+    $scope.payment={
+        remainingAmount:0,
+        amountPaid:0
+
+    };
+    var remainngAmount=0;
     var data = {
         opertaion: "getBills",
         clientid:$stateParams.clientid
@@ -525,7 +530,9 @@ myApp.controller("addPaymentController", function ($scope,$http,$stateParams) {
         $scope.errorMessage = data;
         $('#error').css("display", "block");
     });
-
+    $scope.calculateRemainingAmount=function(){
+        $scope.payment.remainingAmount=remainngAmount-$scope.payment.amountPaid;
+    }
     $scope.getBillDetails= function (billId) {
 
         console.log(billId);
@@ -543,6 +550,8 @@ myApp.controller("addPaymentController", function ($scope,$http,$stateParams) {
             .success(function (data) {
                 $scope.BillDetails=data;
                 console.log($scope.BillDetails);
+                remainngAmount= $scope.BillDetails[0].totalamounttoBePaid -$scope.BillDetails[0].totalpaidamount;
+                console.log(remainngAmount);
 
             }).error(function (data, status, headers, config) {
             $('#loader').css("display", "none");
@@ -752,7 +761,7 @@ myApp.controller("invoiceSupplierController", function ($scope,$http,$stateParam
         .success(function (data) {
             $scope.Workorders=data;
             console.log($scope.Workorders[0]);
-            $scope.clientname=$scope.Workorders[0].clientname;
+            $scope.clientname=$scope.Workorders[0].suppliername;
 
         }).error(function (data, status, headers, config) {
         $('#loader').css("display", "none");
@@ -826,8 +835,12 @@ myApp.controller("addSupplierPaymentController", function ($scope,$http,$statePa
     $scope.Bills={};
     $scope.BillDetails={};
     $scope.BillDetails.totalamounttoBePaid=0;
-    $scope.payment={};
+    $scope.payment={
+        remainingAmount:0,
+        amountPaid:0
 
+    };
+    var remainngAmount=0;
     var data = {
         opertaion: "getSupplierBills",
         supplierid:$stateParams.supplierid
@@ -841,6 +854,7 @@ myApp.controller("addSupplierPaymentController", function ($scope,$http,$statePa
         .success(function (data) {
             $scope.Bills=data;
             console.log($scope.Bills);
+
 
         }).error(function (data, status, headers, config) {
         $('#loader').css("display", "none");
@@ -864,6 +878,8 @@ myApp.controller("addSupplierPaymentController", function ($scope,$http,$statePa
             .success(function (data) {
                 $scope.BillDetails=data;
                 console.log($scope.BillDetails);
+                remainngAmount= $scope.BillDetails[0].totalamounttoBePaid -$scope.BillDetails[0].totalpaidamount;
+                console.log(remainngAmount);
 
             }).error(function (data, status, headers, config) {
             $('#loader').css("display", "none");
@@ -873,6 +889,9 @@ myApp.controller("addSupplierPaymentController", function ($scope,$http,$statePa
 
     }
 
+    $scope.calculateRemainingAmount=function(){
+        $scope.payment.remainingAmount=remainngAmount-$scope.payment.amountPaid;
+    }
     $scope.addPayment=function(){
         var data = {
             data:$scope.payment,

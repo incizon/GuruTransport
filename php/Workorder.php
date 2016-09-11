@@ -358,11 +358,9 @@ class Workorder
     {
         $db = Database::getInstance();
         $conn = $db->getConnection();
+        $isPaid=false;
         if(!strcmp("all",$searchBy)){
-            $stmt = "SELECT * FROM invoice_master WHERE invoice_master.clientid=:keyword";
-
-//            $stmt = "SELECT * FROM invoice_master
-//              JOIN invoice_details ON invoice_master.invoiceid=invoice_details.invoiceid WHERE invoice_master.clientid=:keyword";
+            $stmt = "SELECT * FROM invoice_master WHERE invoice_master.clientid=:keyword AND isPaid=:isPaid";
 
         }else{
             $stmt = "SELECT * FROM process_master
@@ -372,6 +370,7 @@ class Workorder
         }
         $stmt = $conn->prepare($stmt);
         $stmt->bindParam(':keyword', $keyword);
+        $stmt->bindParam(':isPaid', $isPaid);
         if ($stmt->execute()) {
             if ($stmt->rowCount() > 0) {
                 $json_array = array();
@@ -436,8 +435,21 @@ class Workorder
                 }
 
                 if ($stmt1->execute()) {
-                    echo AppUtil::getReturnStatus("success", "Payment added Successfully");
 
+                    $isPaid=true;
+
+                    if($data->remainingAmount<=0){
+                        $stmtUpdateInvoice=$conn->prepare("UPDATE invoice_master SET isPaid =:isPaid,lastmodificationdate=now(),lastmodifiedby=:lastmodifiedby
+                                     WHERE invoiceid = :invoiceid");
+                        $stmtUpdateInvoice->bindParam(':isPaid', $isPaid, PDO::PARAM_STR, 10);
+                        $stmtUpdateInvoice->bindParam(':lastmodifiedby', $userId, PDO::PARAM_STR, 10);
+                        $stmtUpdateInvoice->bindParam(':invoiceid', $data->invoiceid, PDO::PARAM_STR, 10);
+                        if($stmtUpdateInvoice->execute()){
+
+                        }
+
+                    }
+                    echo AppUtil::getReturnStatus("success", "Payment added Successfully");
                 } else {
                     echo AppUtil::getReturnStatus("Fail", $stmt1->errorInfo());
                 }
@@ -618,8 +630,9 @@ class Workorder
     public static function getSupplierBills($searchBy, $keyword){
         $db = Database::getInstance();
         $conn = $db->getConnection();
+        $isPaid=false;
         if(!strcmp("all",$searchBy)){
-            $stmt = "SELECT * FROM supplier_invoice_master WHERE supplier_invoice_master.supplierid=:keyword";
+            $stmt = "SELECT * FROM supplier_invoice_master WHERE supplier_invoice_master.supplierid=:keyword AND isPaid=:isPaid";
 
         }else{
             $stmt = "SELECT * FROM process_master
@@ -629,6 +642,7 @@ class Workorder
         }
         $stmt = $conn->prepare($stmt);
         $stmt->bindParam(':keyword', $keyword);
+        $stmt->bindParam(':isPaid', $isPaid);
         if ($stmt->execute()) {
             if ($stmt->rowCount() > 0) {
                 $json_array = array();
@@ -731,8 +745,22 @@ class Workorder
                 }
 
                 if ($stmt1->execute()) {
-                    echo AppUtil::getReturnStatus("success", "Payment added Successfully");
 
+                    // Change status to paid if remaining amt is zero
+                    $isPaid=true;
+
+                    if($data->remainingAmount<=0){
+                        $stmtUpdateInvoice=$conn->prepare("UPDATE supplier_invoice_master SET isPaid =:isPaid,lastmodificationdate=now(),lastmodifiedby=:lastmodifiedby
+                                     WHERE supplierinvoiceid = :supplierinvoiceid");
+                        $stmtUpdateInvoice->bindParam(':isPaid', $isPaid, PDO::PARAM_STR, 10);
+                        $stmtUpdateInvoice->bindParam(':lastmodifiedby', $userId, PDO::PARAM_STR, 10);
+                        $stmtUpdateInvoice->bindParam(':supplierinvoiceid', $data->invoiceid, PDO::PARAM_STR, 10);
+                        if($stmtUpdateInvoice->execute()){
+
+                        }
+                    }
+
+                    echo AppUtil::getReturnStatus("success", "Payment added Successfully");
                 } else {
                     echo AppUtil::getReturnStatus("Fail", $stmt1->errorInfo());
                 }
@@ -755,10 +783,8 @@ class Workorder
         if ($stmt->execute()) {
             if ($stmt->rowCount() > 0) {
                 $json_array = array();
-
                 while ($result2 = $stmt->fetch(PDO::FETCH_ASSOC)) {
                     $result = array();
-
                     $result['invoiceid'] = $result2['supplierinvoiceid'];
                     $result['clientid'] = $result2['supplierid'];
                     $result['createdby'] = $result2['createdby'];
